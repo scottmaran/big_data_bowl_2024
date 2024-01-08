@@ -1,10 +1,11 @@
 # https://www.kaggle.com/code/twinpilgrim/getting-a-word-count-of-your-notebook
+# ran on notebook excluding appendix, figures, and code
 
 import numpy as np 
 import pandas as pd 
 import json
 
-with open('pay-attention-to-tackles-pat.ipynb') as json_file:
+with open('pay-attention-to-tackles-an-ai-approach_v2.ipynb') as json_file:
     data = json.load(json_file)
 
 wordCount = 0

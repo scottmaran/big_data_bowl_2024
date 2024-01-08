@@ -39,12 +39,12 @@ def return_pos_embeddings(pos_embedding_df : pd.DataFrame, ids : torch.tensor):
     
     return torch.tensor(all_embeds, dtype=torch.float32)
 
-def return_pos_df():
+def return_pos_df(normalize=True):
     # load in positional embeddings dataframe
     try:
-        pos_embeddings = pd.read_csv("./create_pos_embedding/2022_full_player_embed_df.csv")
+        pos_embeddings = pd.read_csv("./create_pos_embedding/embeddings/2022_full_player_embed_df.csv")
     except:
-        pos_embeddings = pd.read_csv("../create_pos_embedding/2022_full_player_embed_df.csv")
+        pos_embeddings = pd.read_csv("../create_pos_embedding/embeddings/2022_full_player_embed_df.csv")
     pos_embeddings.loc[pos_embeddings.nflId==0,'nflId'] = -1.0
     embed_32_dropped = pos_embeddings.drop(columns=['displayName','nflId', 'position'])
     tsne = TSNE(n_components=2)
@@ -54,6 +54,12 @@ def return_pos_df():
     new_embeddings['1'] = node_embeddings_2d[:,1]
     new_embeddings['nflId'] = pos_embeddings['nflId']
     new_embeddings['position'] = pos_embeddings['position']
+
+    if normalize:
+        max = new_embeddings.loc[:,['0', '1']].max(axis=0).values
+        min = new_embeddings.loc[:,['0', '1']].min(axis=0).values
+        mean = new_embeddings.loc[:,['0', '1']].mean(axis=0).values
+        new_embeddings.loc[:,['0','1']] = (new_embeddings.loc[:,['0','1']] - mean)/(max-min)
 
     return new_embeddings
 
