@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd 
 import json
 
-with open('pay-attention-to-tackles-an-ai-approach_v2.ipynb') as json_file:
+with open('pay-attention-to-tackles-an-ai-approach.ipynb') as json_file:
     data = json.load(json_file)
 
 wordCount = 0
